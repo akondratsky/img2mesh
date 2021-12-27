@@ -20,7 +20,7 @@ export const App = () => {
   return (
     <div id="app">
       <div id="content3d" />
-      <div class="control-panel" style={{ position: 'absolute', backgroundColor: '#fff' }}>
+      <div className="control-panel">
         <input type="file" onChange={fileChangeHandler} />
         <button type="button" onClick={export2fusion}>
           EXPORT TO FUSION360

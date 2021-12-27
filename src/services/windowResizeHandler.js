@@ -1,6 +1,5 @@
 import { camera } from './camera';
 import { renderer, controls, render } from './renderer';
-import { scene } from './scene'; 
 
 // onWindowResize
 export const windowResizeHandler = () => {

@@ -5,7 +5,6 @@ import { drawLines } from '../services/converter'
 
 const defaultOptions = {
   pixelStep: 5,	// pixel step over in the image
-  meshStep: 1, // amount in mms to step over mesh per pixel
   maxHeight: 5, // max mesh height in mms for brightest image color
   isInvert: false, // true to invert height values (dark == highest)
   isSmooth: true, //turn on smoothing
@@ -29,10 +28,6 @@ export const useControls = ({ onChange }) => {
       .name('Pixels to Skip')
       .step(1)
       .onChange(changeHandler);
-    gui.add(opts, 'meshStep', 0.10, 10.00, 1.00)
-      .name('Stepover (mm)')
-      .step(0.1)
-      .onChange(changeHandler);
     gui.add(opts, 'maxHeight', 1.00, 500.00, 5.00)
       .name('Max Height (mm)')
       .step(0.1)
@@ -51,7 +46,7 @@ export const useControls = ({ onChange }) => {
     optionsRef.current = opts;
 
     changeHandler();
-  }, []);
+  }, [changeHandler]);
 
   const resetOptions = useCallback(() => {
 

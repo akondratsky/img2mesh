@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"05d52873-c8c5-4e96-ac08-67857171c763",
+	"author":	"Alexandr Kondratskii",
+	"description":	{
+		"":	"Generate Mesh from Image"
+	},
+	"version":	"1.0",
+	"runOnStartup":	false,
+	"supportedOS":	"mac",
+	"editEnabled":	true
+}

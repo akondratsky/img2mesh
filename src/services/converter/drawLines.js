@@ -13,7 +13,7 @@ export const drawLines = () => {
   if (!imageData) return;
 
   const { height, width } = imageData;
-  const { pixelStep, meshStep, maxHeight } = optionsService.options;
+  const { pixelStep, maxHeight } = optionsService.options;
 
   const widthSegments = floor(width / pixelStep);
   const heightSegments = floor(height / pixelStep);
