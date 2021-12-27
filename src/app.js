@@ -1,9 +1,9 @@
-import { useCallback, } from 'preact/hooks';
+import React, { useCallback} from 'react';
 import { useControls } from './hooks/useControls';
 import { useInitialization } from './hooks/useInitialization';
-import { readImage, getImageData, drawLines } from './services/converter';
+import { readImage, getImageData, drawLines, export2fusion } from './services/converter';
 
-const App = () => {
+export const App = () => {
   useInitialization();
   useControls({
     onChange: (opts) => console.log(opts)
@@ -17,21 +17,15 @@ const App = () => {
     drawLines();
   }, []);
 
-  const exportHandler = useCallback(() => {
-    console.log('export')
-  }, []);
-
   return (
     <div id="app">
       <div id="content3d" />
       <div class="control-panel" style={{ position: 'absolute', backgroundColor: '#fff' }}>
         <input type="file" onChange={fileChangeHandler} />
-        <button type="button" onClick={exportHandler  }>
+        <button type="button" onClick={export2fusion}>
           EXPORT TO FUSION360
         </button>
       </div>
     </div>
   );
 };
-
-export default App

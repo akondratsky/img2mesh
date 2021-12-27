@@ -1,5 +1,5 @@
 import dat from 'dat.gui';
-import { useCallback, useEffect, useRef } from 'preact/hooks';
+import { useCallback, useEffect, useRef } from 'react';
 import { optionsService } from '../services/options';
 import { drawLines } from '../services/converter'
 

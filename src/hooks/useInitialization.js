@@ -1,7 +1,7 @@
-import { useEffect } from "preact/hooks"
+import { useEffect } from 'react';
 import { windowResizeHandler } from '../services/windowResizeHandler';
 
-import { injectRenderer } from "../services/renderer";
+import { injectRenderer } from '../services/renderer';
 
 export const useInitialization = () => {
   useEffect(() => {
