@@ -1,7 +1,7 @@
 import React, { useCallback} from 'react';
 import { useControls } from './hooks/useControls';
 import { useInitialization } from './hooks/useInitialization';
-import { readImage, getImageData, drawLines, export2fusion } from './services/converter';
+import { readImage, getImageData, rerenderScene, export2fusion } from './services/converter';
 
 export const App = () => {
   useInitialization();
@@ -14,7 +14,7 @@ export const App = () => {
 		const image = await readImage(file);
 		// TODO: resetGUIOptions()
 		getImageData(image);
-    drawLines();
+    rerenderScene();
   }, []);
 
   return (

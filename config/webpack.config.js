@@ -495,7 +495,7 @@ module.exports = function (webpackEnv) {
             publicPath: '',
             inject: true,
             template: paths.appHtml,
-            filename: 'img2mesh.html'
+            filename: 'index.html'
           },
           isEnvProduction
             ? {

@@ -1,7 +1,7 @@
 import dat from 'dat.gui';
 import { useCallback, useEffect, useRef } from 'react';
 import { optionsService } from '../services/options';
-import { drawLines } from '../services/converter'
+import { rerenderScene } from '../services/converter'
 
 const defaultOptions = {
   pixelStep: 5,	// pixel step over in the image
@@ -17,7 +17,7 @@ export const useControls = ({ onChange }) => {
 
   const changeHandler = useCallback(() => {
     optionsService.update(optionsRef.current);
-    drawLines();
+    rerenderScene();
   }, []);
 
   useEffect(() => {

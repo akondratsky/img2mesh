@@ -17,6 +17,10 @@ class State {
   getImageData() {
     return _imageData;
   }
+
+  isImageReady() {
+    return !!_image && !!_imageData;
+  }
 }
 
 export const state = new State();

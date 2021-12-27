@@ -21,20 +21,12 @@ class ShowPaletteCommandExecuteHandler(adsk.core.CommandEventHandler):
             # Create and display the palette.
             palette = _ui.palettes.itemById('img2meshPalette')
             if not palette:
-                palette = _ui.palettes.add('img2meshPalette', 'img2mesh', 'img2mesh.html', True, True, True, 1200, 800)
-
-                # Float the palette.
-                palette.dockingState = adsk.core.PaletteDockingStates.PaletteDockStateFloating
+                palette = _ui.palettes.add('img2meshPalette', 'img2mesh', 'index.html', True, True, True, 1024, 768)
     
                 # Add handler to HTMLEvent of the palette.
                 onHTMLEvent = MyHTMLEventHandler()
                 palette.incomingFromHTML.add(onHTMLEvent)
                 handlers.append(onHTMLEvent)
-    
-                # Add handler to CloseEvent of the palette.
-                onClosed = MyCloseEventHandler()
-                palette.closed.add(onClosed)
-                handlers.append(onClosed)
             else:
                 palette.isVisible = True                              
         except:
@@ -84,20 +76,6 @@ class SendInfoCommandCreatedHandler(adsk.core.CommandCreatedEventHandler):
             _ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
 
 
-# Event handler for the palette close event.
-class MyCloseEventHandler(adsk.core.UserInterfaceGeneralEventHandler):
-    def __init__(self):
-        super().__init__()
-    def notify(self, args):
-        try:
-            # _ui.messageBox('Close button is clicked.')
-            foo = 1
-            if foo == 2:
-                foo = 2
-        except:
-            _ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
-
-
 # Event handler for the palette HTML event.                
 class MyHTMLEventHandler(adsk.core.HTMLEventHandler):
     def __init__(self):
@@ -111,7 +89,6 @@ class MyHTMLEventHandler(adsk.core.HTMLEventHandler):
             objStrLen = len(data['obj'])
 
             if objStrLen > 0:
-
                 fp = tempfile.NamedTemporaryFile(mode='w', suffix='.obj', delete=False)
                 fp.writelines(objStr)
                 fp.close()
@@ -151,62 +128,43 @@ class MyHTMLEventHandler(adsk.core.HTMLEventHandler):
                     # therefore zoom to fit so mesh appears to user
                     vp = _app.activeViewport
                     vp.fit()
-                else:
-                    _ui.messageBox('Failed to generate mesh body from file: {}'.format(objFilePath))
-
-            else:
-                _ui.messageBox('Failed to generate mesh OBJ')
-
         except:
             _ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
 
 
 def run(context):
-    try:
-        global _ui, _app
-        _app = adsk.core.Application.get()
-        _ui  = _app.userInterface
-        
-        # Add a command that displays the panel.
-        showPaletteCmdDef = _ui.commandDefinitions.itemById('showImg2MeshPalette')
-        if not showPaletteCmdDef:
-            #strTooltip = '<div style=\'font-family:"Calibri";color:#e0e0e0; padding-top:-10px; padding-bottom:10px;\'><span style=\'font-size:20px;\'><b>Image 2 Surface</b></span></div>Use this add-in to convert an image into a surface (mesh).'
-            showPaletteCmdDef = _ui.commandDefinitions.addButtonDefinition('showImg2MeshPalette', 'Show Image 2 Mesh', '', './/Resources//image2surface')
-            showPaletteCmdDef.toolClipFilename = './/Resources//image2surface//image2surface-tooltip.png'
+    global _ui, _app
+    _app = adsk.core.Application.get()
+    _ui  = _app.userInterface
+    
+    # Add a command that displays the panel.
+    showPaletteCmdDef = _ui.commandDefinitions.itemById('showImg2MeshPalette')
+    if not showPaletteCmdDef:
+        #strTooltip = '<div style=\'font-family:"Calibri";color:#e0e0e0; padding-top:-10px; padding-bottom:10px;\'><span style=\'font-size:20px;\'><b>Image 2 Surface</b></span></div>Use this add-in to convert an image into a surface (mesh).'
+        showPaletteCmdDef = _ui.commandDefinitions.addButtonDefinition('showImg2MeshPalette', 'Img 2 Mesh', '', '')
 
-            # Connect to Command Created event.
-            onCommandCreated = ShowPaletteCommandCreatedHandler()
-            showPaletteCmdDef.commandCreated.add(onCommandCreated)
-            handlers.append(onCommandCreated)
-        
-        # Add the command to the toolbar.
-        panel = _ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
-        cntrl = panel.controls.itemById('showImg2MeshPalette')
-        if not cntrl:
-            panel.controls.addCommand(showPaletteCmdDef)
-       
-        if context['IsApplicationStartup'] is False:
-            _ui.messageBox('The "img2mesh" command has been added\nto the ADD-INS panel dropdown of the MODEL workspace.\n\nTo run the command, select the ADD-INS dropdown\nthen select "Show Image 2 Mesh".')
-    except:
-        if _ui:
-            _ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
-
+        # Connect to Command Created event.
+        onCommandCreated = ShowPaletteCommandCreatedHandler()
+        showPaletteCmdDef.commandCreated.add(onCommandCreated)
+        handlers.append(onCommandCreated)
+    
+    # Add the command to the toolbar.
+    panel = _ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
+    cntrl = panel.controls.itemById('showImg2MeshPalette')
+    if not cntrl:
+        panel.controls.addCommand(showPaletteCmdDef)
 
 def stop(context):
-    try:        
-        # Delete the palette created by this add-in.
-        palette = _ui.palettes.itemById('img2meshPalette')
-        if palette:
-            palette.deleteMe()
-            
-        # Delete controls and associated command definitions created by this add-ins
-        panel = _ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
-        cmd = panel.controls.itemById('showImg2MeshPalette')
-        if cmd:
-            cmd.deleteMe()
-        cmdDef = _ui.commandDefinitions.itemById('showImg2MeshPalette')
-        if cmdDef:
-            cmdDef.deleteMe() 
-    except:
-        if _ui:
-            _ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
+    # Delete the palette created by this add-in.
+    palette = _ui.palettes.itemById('img2meshPalette')
+    if palette:
+        palette.deleteMe()
+        
+    # Delete controls and associated command definitions created by this add-ins
+    panel = _ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
+    cmd = panel.controls.itemById('showImg2MeshPalette')
+    if cmd:
+        cmd.deleteMe()
+    cmdDef = _ui.commandDefinitions.itemById('showImg2MeshPalette')
+    if cmdDef:
+        cmdDef.deleteMe()
