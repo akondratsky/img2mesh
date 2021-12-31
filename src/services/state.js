@@ -1,26 +1,15 @@
-let _image = null;
-let _imageData = null;
-
-class State {
-  updateImage(img) {
-    _image = img;
-  }
-  /** @returns {Image} */
-  getImage() {
-    return _image;
+export class State {
+  get(key) {
+    return this[key];
   }
 
-  updateImageData(imageData) {
-    _imageData = imageData;
-  }
-  /** @returns {ImageData} */
-  getImageData() {
-    return _imageData;
-  }
-
-  isImageReady() {
-    return !!_image && !!_imageData;
+  set(key, value) {
+    this[key] = value;
   }
 }
+
+export const OPTIONS = 'options';
+export const IMAGE = 'image';
+export const IMAGE_MATRIX_DATA = 'imageMatrixData';
 
 export const state = new State();

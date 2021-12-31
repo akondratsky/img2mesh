@@ -4,4 +4,4 @@ export const animate = () => {
   requestAnimationFrame(animate);
   controls.update();
   render();
-}
+};

@@ -1,34 +1,38 @@
-import * as THREE from 'three';
-import { getBaseGeometry } from './getBaseGeometry';
-import { getBrightness } from '../converter/getBrightness';
-import { optionsService } from '../options';
-
+import { PlaneGeometry, Matrix4, MeshBasicMaterial, Mesh } from 'three';
+import { color2Brightness } from 'src/convert/color2Brightness';
+import { state, OPTIONS } from 'src/services/state';
+import { getMeshParams } from './getMeshParams';
+import { vertex2color } from 'src/convert/vertex2color';
 
 export const createPlaneMesh = () => {
-  const { width, height, widthSegments, heightSegments, getColorByIndex } = getBaseGeometry();
-  const { maxHeight } = optionsService.options;
+  const { width, height, widthSegments, heightSegments } = getMeshParams();
 
-  const geometry = new THREE.PlaneGeometry(width, height, widthSegments, heightSegments);
-  const material = new THREE.MeshBasicMaterial({
-    wireframe: true,
-    vertexColors: true,
-  });
+  const geometry = new PlaneGeometry(width, height, widthSegments, heightSegments);
+
+  // let's move it from center (with negative coordinates) to simplify calculations
+  geometry.applyMatrix4(new Matrix4().makeTranslation(width / 2, height / 2, 0));
 
   // change height of plane
-  geometry.vertices.forEach((vertice, index) => {
-    const color = getColorByIndex(geometry.vertices, index);
-    const brightness = getBrightness(color);
-    vertice.setZ(brightness * maxHeight);
+  geometry.vertices.forEach((vertice) => {
+    const color = vertex2color(vertice);
+    const brightness = color2Brightness(color);
+    const maxHeight = state.get(OPTIONS).maxHeight;
+    vertice.setZ(brightness * maxHeight)
   });
 
   // colorize plane
   geometry.faces.forEach(face => face.vertexColors.push(
-    getColorByIndex(geometry.vertices, face.a),
-    getColorByIndex(geometry.vertices, face.b),
-    getColorByIndex(geometry.vertices, face.c),
+    vertex2color(geometry.vertices[face.a]),
+    vertex2color(geometry.vertices[face.b]),
+    vertex2color(geometry.vertices[face.c]),
   ));
 
-  const plane = new THREE.Mesh(geometry, material);
+  const material = new MeshBasicMaterial({
+    wireframe: true,
+    vertexColors: true,
+  });
 
+  const plane = new Mesh(geometry, material);
+  
   return plane;
 }

@@ -1,11 +1,9 @@
-import { state } from '../state';
-
 /**
  * 
  * @param {File} file 
- * @return {HTMLImageElement}
+ * @return {Promise<HTMLImageElement>}
  */
- export const readImage = (file) => {
+ export const file2image = (file) => {
   if (!file.type.match(/image\/\w+/)) {
     alert('Only image file type supported');
     return;
@@ -17,7 +15,6 @@ import { state } from '../state';
       const image = new Image();
       image.src = reader.result;
       image.onload = () => {
-        state.updateImage(image);
         resolve(image);
       }
     };

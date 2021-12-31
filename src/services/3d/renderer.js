@@ -11,7 +11,6 @@ export const renderer = new THREE.WebGLRenderer({
   // sortElements: false
 });
 
-// TODO: use it
 export const injectRenderer = () => {
   document
     .getElementById('content3d')
@@ -28,7 +27,3 @@ controls.panSpeed = 0.8;
 controls.noZoom = false;
 controls.noPan = false;
 controls.staticMoving = true; // true == Disable damping
-
-// this is commented code from original addin:
-//_controls.dynamicDampingFactor = 0.3;
-//_controls.keys = [ 65, 83, 68 ];

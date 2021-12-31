@@ -1,7 +1,11 @@
 import React, { useCallback} from 'react';
 import { useControls } from './hooks/useControls';
 import { useInitialization } from './hooks/useInitialization';
-import { readImage, getImageData, rerenderScene, export2fusion } from './services/converter';
+import { rerenderScene } from 'src/services/converter/rerenderScene';
+
+import { image2matrixData } from 'src/convert/image2matrixData';
+import { file2image } from 'src/convert/file2image';
+import { state, IMAGE_MATRIX_DATA } from 'src/services/state';
 
 export const App = () => {
   useInitialization();
@@ -10,10 +14,11 @@ export const App = () => {
   });
 
   const fileChangeHandler = useCallback(async (e) => {
-		const file = e.target.files[0];
-		const image = await readImage(file);
-		// TODO: resetGUIOptions()
-		getImageData(image);
+		const image = await file2image(e.target.files[0]);
+    const matrixData = image2matrixData(image);
+
+    state.set(IMAGE_MATRIX_DATA, matrixData);
+
     rerenderScene();
   }, []);
 
@@ -22,7 +27,7 @@ export const App = () => {
       <div id="content3d" />
       <div className="control-panel">
         <input type="file" onChange={fileChangeHandler} />
-        <button type="button" onClick={export2fusion}>
+        <button type="button" onClick={() => {} /*export2fusion*/}>
           EXPORT TO FUSION360
         </button>
       </div>

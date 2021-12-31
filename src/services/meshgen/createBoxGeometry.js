@@ -1,7 +1,9 @@
 import * as THREE from 'three';
-import { optionsService } from '../options';
-import { getBrightness } from '../converter/getBrightness';
-import { getBaseGeometry } from './getBaseGeometry';
+import { state, OPTIONS } from 'src/services/state';
+import { color2Brightness } from 'src/convert/color2Brightness';
+
+import { getMeshParams } from 'src/services/meshgen/getMeshParams';
+import { getVertexColor } from '../converter/getVertexColor';
 
 /** @returns {THREE.BoxGeometry} */
 export const createBoxGeometry = () => {
@@ -12,9 +14,8 @@ export const createBoxGeometry = () => {
     widthSegments,
     heightSegments,
     depthSegments,
-    getColorByIndex
-  } = getBaseGeometry();
-  const { maxHeight } = optionsService.options;
+  } = getMeshParams();
+  const { maxHeight } = state.get(OPTIONS);
 
   const geometry = new THREE.BoxGeometry(
     width, height, depth,
@@ -26,8 +27,8 @@ export const createBoxGeometry = () => {
   const topLayer = geometry.vertices.filter((v) => v.z === topZ);
 
   topLayer.forEach((vertice, index) => {
-    const color = getColorByIndex(topLayer, index);
-    const brightness = getBrightness(color);
+    const color = getVertexColor(topLayer[index]);
+    const brightness = color2Brightness(color);
     vertice.setZ(brightness * maxHeight);
   });
   

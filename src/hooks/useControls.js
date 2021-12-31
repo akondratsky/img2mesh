@@ -1,11 +1,11 @@
 import dat from 'dat.gui';
 import { useCallback, useEffect, useRef } from 'react';
-import { optionsService } from '../services/options';
-import { rerenderScene } from '../services/converter'
+import { state, OPTIONS } from 'src/services/state';
+import { rerenderScene } from 'src/services/converter'
 
 const defaultOptions = {
-  pixelStep: 5,	// pixel step over in the image
-  maxHeight: 5, // max mesh height in mms for brightest image color
+  pixelFactor: 1,	// pixel step over in the image
+  maxHeight: 1, // max mesh height in mms for brightest image color
   isInvert: false, // true to invert height values (dark == highest)
   isSmooth: true, //turn on smoothing
   isAbsolute: false
@@ -16,7 +16,7 @@ export const useControls = ({ onChange }) => {
   const optionsRef = useRef(defaultOptions);
 
   const changeHandler = useCallback(() => {
-    optionsService.update(optionsRef.current);
+    state.set(OPTIONS, optionsRef.current);
     rerenderScene();
   }, []);
 
@@ -24,8 +24,8 @@ export const useControls = ({ onChange }) => {
     const gui = new dat.GUI();
     const opts = { ...defaultOptions };
 
-    gui.add(opts, 'pixelStep', 1.00, 50.00, 5.00)
-      .name('Pixels to Skip')
+    gui.add(opts, 'pixelFactor', 1.00, 50.00, 5.00)
+      .name('Pixel Factor')
       .step(1)
       .onChange(changeHandler);
     gui.add(opts, 'maxHeight', 1.00, 500.00, 5.00)
@@ -47,12 +47,4 @@ export const useControls = ({ onChange }) => {
 
     changeHandler();
   }, [changeHandler]);
-
-  const resetOptions = useCallback(() => {
-
-  }, []);
-
-  return {
-    resetOptions
-  }
 };
