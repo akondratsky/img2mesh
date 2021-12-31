@@ -10,13 +10,15 @@ export const updateScene = (object) => {
   fitView(object);
 }
 
+
 const OFFSET = 10.25;
 
-export const fitView = (object) => {
+
+const fitView = (object) => {
   const boundingBox = new Box3();
   const center = new Vector3();
   const size = new Vector3();
-  
+
   // get bounding box of object - this will be used to setup controls and camera
   boundingBox.setFromObject(object);
   boundingBox.getCenter(center);

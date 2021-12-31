@@ -12,13 +12,21 @@ export const createPlaneMesh = () => {
   // let's move it from center (with negative coordinates) to simplify calculations
   geometry.applyMatrix4(new Matrix4().makeTranslation(width / 2, height / 2, 0));
 
+
+  const heights = []
+
   // change height of plane
   geometry.vertices.forEach((vertice) => {
     const color = vertex2color(vertice);
     const brightness = color2Brightness(color);
     const maxHeight = state.get(OPTIONS).maxHeight;
+
+    heights.push(brightness * maxHeight);
+
     vertice.setZ(brightness * maxHeight)
   });
+
+  window.heights = heights;
 
   // colorize plane
   geometry.faces.forEach(face => face.vertexColors.push(
@@ -33,6 +41,8 @@ export const createPlaneMesh = () => {
   });
 
   const plane = new Mesh(geometry, material);
+
+  window.plane = plane;
   
   return plane;
 }

@@ -1,10 +1,10 @@
-import { state, OPTIONS, IMAGE_MATRIX_DATA } from 'src/services/state';
+import { state, OPTIONS, IMAGE_DATA } from 'src/services/state';
 
 
 const floor = Math.floor;
 
 export const getMeshParams = () => {
-  const { height: iHeight, width: iWidth } = state.get(IMAGE_MATRIX_DATA);
+  const { height: iHeight, width: iWidth } = state.get(IMAGE_DATA);
   const { pixelFactor, maxHeight } = state.get(OPTIONS);
 
   const height = floor(iHeight / pixelFactor) - 1;

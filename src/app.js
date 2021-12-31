@@ -1,23 +1,23 @@
-import React, { useCallback} from 'react';
-import { useControls } from './hooks/useControls';
+import React, { useCallback } from 'react';
+import { useOptions } from './hooks/useOptions';
 import { useInitialization } from './hooks/useInitialization';
 import { rerenderScene } from 'src/services/converter/rerenderScene';
 
-import { image2matrixData } from 'src/convert/image2matrixData';
+import { image2imageData } from 'src/convert/image2imageData';
 import { file2image } from 'src/convert/file2image';
-import { state, IMAGE_MATRIX_DATA } from 'src/services/state';
+import { state, IMAGE_DATA } from 'src/services/state';
 
 export const App = () => {
   useInitialization();
-  useControls({
+  useOptions({
     onChange: (opts) => console.log(opts)
   });
 
   const fileChangeHandler = useCallback(async (e) => {
-		const image = await file2image(e.target.files[0]);
-    const matrixData = image2matrixData(image);
+    const image = await file2image(e.target.files[0]);
+    const imageData = image2imageData(image);
 
-    state.set(IMAGE_MATRIX_DATA, matrixData);
+    state.set(IMAGE_DATA, imageData);
 
     rerenderScene();
   }, []);
@@ -27,7 +27,7 @@ export const App = () => {
       <div id="content3d" />
       <div className="control-panel">
         <input type="file" onChange={fileChangeHandler} />
-        <button type="button" onClick={() => {} /*export2fusion*/}>
+        <button type="button" onClick={() => { } /*export2fusion*/}>
           EXPORT TO FUSION360
         </button>
       </div>

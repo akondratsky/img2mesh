@@ -1,14 +1,14 @@
 
-import { IMAGE_MATRIX_DATA, state } from '../state';
+import { state } from '../state';
 import { render } from '../3d/renderer';
-import { createBoxGeometry } from '../meshgen/createBoxGeometry';
+
 import { createPlaneMesh } from '../meshgen/createPlaneMesh';
 
 
 export const export2fusion = () => {
   render();
 
-  if (!state.get(IMAGE_MATRIX_DATA)) return;
+  // if (!state.get(IMAGE_MATRIX_DATA)) return;
 
   // const geometry = createBoxGeometry();
 

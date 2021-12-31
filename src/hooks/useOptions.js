@@ -4,14 +4,14 @@ import { state, OPTIONS } from 'src/services/state';
 import { rerenderScene } from 'src/services/converter'
 
 const defaultOptions = {
-  pixelFactor: 1,	// pixel step over in the image
+  pixelFactor: 5,	// pixel step over in the image
   maxHeight: 1, // max mesh height in mms for brightest image color
   isInvert: false, // true to invert height values (dark == highest)
   isSmooth: true, //turn on smoothing
   isAbsolute: false
 };
 
-export const useControls = ({ onChange }) => {
+export const useOptions = ({ onChange }) => {
   const guiRef = useRef(null);
   const optionsRef = useRef(defaultOptions);
 
