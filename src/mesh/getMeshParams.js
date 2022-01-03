@@ -15,6 +15,10 @@ export const getMeshParams = () => {
   const heightSegments = height;
   const depthSegments = floor(maxHeight / pixelFactor);
 
+  if (!widthSegments || !heightSegments) {
+    throw new Error('zero segments');
+  }
+
   return {
     height,
     width,
@@ -22,5 +26,5 @@ export const getMeshParams = () => {
     widthSegments,
     heightSegments,
     depthSegments,
-  }
-}
+  };
+};

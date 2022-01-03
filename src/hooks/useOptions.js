@@ -1,14 +1,18 @@
 import dat from 'dat.gui';
 import { useCallback, useEffect, useRef } from 'react';
 import { state, OPTIONS } from 'src/services/state';
-import { rerenderScene } from 'src/services/converter'
+import { rerenderScene } from 'src/services/3d/rerenderScene'
 
 const defaultOptions = {
   pixelFactor: 5,	// pixel step over in the image
-  maxHeight: 1, // max mesh height in mms for brightest image color
+  maxHeight: 10, // max mesh height in mms for brightest image color
   isInvert: false, // true to invert height values (dark == highest)
   isSmooth: true, //turn on smoothing
-  isAbsolute: false
+  isColorizedView: true,
+  isAbsolute: false,
+  fitView: () => {
+    rerenderScene({ fitView: true });
+  },
 };
 
 export const useOptions = ({ onChange }) => {
@@ -17,7 +21,7 @@ export const useOptions = ({ onChange }) => {
 
   const changeHandler = useCallback(() => {
     state.set(OPTIONS, optionsRef.current);
-    rerenderScene();
+    rerenderScene({ fitView: false });
   }, []);
 
   useEffect(() => {
@@ -41,6 +45,11 @@ export const useOptions = ({ onChange }) => {
     gui.add(opts, 'isAbsolute')
       .name('Absolute (B&W)')
       .onChange(changeHandler);
+    gui.add(opts, 'isColorizedView')
+      .name('Colorized (view only)')
+      .onChange(changeHandler);
+    gui.add(opts, 'fitView')
+      .name('Fit View');
 
     guiRef.current = gui;
     optionsRef.current = opts;

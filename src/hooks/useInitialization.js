@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
-import { windowResizeHandler } from '../services/windowResizeHandler';
+import { useWindowResizeHandler } from 'src/hooks/useWindowResizeHandler';
 
 import { injectRenderer } from '../services/3d/renderer';
 
 export const useInitialization = () => {
-  useEffect(() => {
-    // TODO: check WebGL support
+  const resizeHandler = useWindowResizeHandler();
 
-    window.addEventListener('resize', windowResizeHandler);
+  useEffect(() => {
+    window.addEventListener('resize', resizeHandler);
 
     document.onselectstart = () => false;
-    
+
     injectRenderer();
-    windowResizeHandler();
+    resizeHandler();    
 
     return () => {
-      window.removeEventListener('resize', windowResizeHandler);
+      window.removeEventListener('resize', resizeHandler);
     };
-  }, []);
+  }, [resizeHandler]);
 }

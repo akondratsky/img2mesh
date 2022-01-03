@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
 import { useOptions } from './hooks/useOptions';
 import { useInitialization } from './hooks/useInitialization';
-import { rerenderScene } from 'src/services/converter/rerenderScene';
+import { rerenderScene } from 'src/services/3d/rerenderScene';
 
 import { image2imageData } from 'src/convert/image2imageData';
 import { file2image } from 'src/convert/file2image';
 import { state, IMAGE_DATA } from 'src/services/state';
+
+import { exportPlane } from 'src/export/plane';
+import { exportPlane2obj } from 'src/export/plane2obj';
 
 export const App = () => {
   useInitialization();
@@ -19,7 +22,7 @@ export const App = () => {
 
     state.set(IMAGE_DATA, imageData);
 
-    rerenderScene();
+    rerenderScene({ fitView: true });
   }, []);
 
   return (
@@ -27,8 +30,11 @@ export const App = () => {
       <div id="content3d" />
       <div className="control-panel">
         <input type="file" onChange={fileChangeHandler} />
-        <button type="button" onClick={() => { } /*export2fusion*/}>
-          EXPORT TO FUSION360
+        <button type="button" onClick={exportPlane}>
+          EXPORT PLANE
+        </button>
+        <button type="button" onClick={exportPlane2obj}>
+          EXPORT BOX
         </button>
       </div>
     </div>

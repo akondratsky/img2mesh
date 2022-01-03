@@ -7,14 +7,13 @@ export const scene = new Scene();
 
 export const updateScene = (object) => {
   scene.clear().add(object);
-  fitView(object);
 }
 
 
 const OFFSET = 10.25;
 
 
-const fitView = (object) => {
+export const lookAtObject = (object) => {
   const boundingBox = new Box3();
   const center = new Vector3();
   const size = new Vector3();

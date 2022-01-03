@@ -12,8 +12,8 @@ export const vertex2imageCoords = (vx, vy) => {
     Во-первых, меш по отношению к изображению - транспонированная матрица, судя по всему
     Во-вторых, ось y развернута
   */
-  const ix = Math.floor(height - vy * pixelFactor - 1);
-  const iy = Math.floor(vx * pixelFactor);
+  const iy = Math.floor(height - vy * pixelFactor - 1);
+  const ix = Math.floor(vx * pixelFactor);
 
   return [ix, iy];
 };
